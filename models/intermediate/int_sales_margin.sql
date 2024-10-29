@@ -1,5 +1,6 @@
 select
     sales.products_id
+    ,sales.orders_id
     ,sales.date_date
     ,sales.revenue
     ,sales.quantity

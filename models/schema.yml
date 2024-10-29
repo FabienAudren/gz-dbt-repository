@@ -8,6 +8,12 @@ sources:
       - name: sales
         identifier: raw_gz_sales
         description: ventes de GreenWeez
+        tests:
+          - unique:
+              column_name: "(orders_id || '_' || pdt_id)"
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness:
+          warn_after: { count: 90, period: day }
         columns: 
           - name: date_date
             description: date d'achat
@@ -25,22 +31,23 @@ sources:
         columns:
           - name: products_id
             description: identifiant du produit
-          - name: purchase_price
-            description: prix d'achat
             tests:
               - unique
+              - not_null
+          - name: purchase_price
+            description: prix d'achat
       - name: ship
         identifier: raw_gz_ship
         description: frais de livraisons
         columns:
           - name: orders_id
             description: identifiant de commande
+            tests:
+              - unique
+              - not_null
           - name: shipping_fee
             description: frais d'expédition
           - name: logCost
             description: coût de log
           - name: ship_cost
             description: coût de livraison
-            tests:
-              - unique
-          
